@@ -1,16 +1,15 @@
+import numpy as np
+
 def UFI_cls(self, X, y):
-    """Function for calculating unbiased measurement of feature importance 
-    for RandomForestClassifier. Out-of-bag samples are used.
+    """Return unbiased measurement of feature importance or RandomForestClassifier using out-of-bag samples.
 
     Parameters  
     ----------
     self : RandomForestClassifier object. 
     X : array-like of shape = [n_samples, n_features]
-        The training input samples. It should be the same data as you use 
-        to fit RandomForestClassifier.
+        The training input samples. It should be the same data as you use to fit RandomForestClassifier.
     y : array-like of shape = [n_samples]
-        The target values (class labels in classification). Only binary 
-        classsfication is supported currently.
+        The target values (class labels in classification). Only binary classsfication is supported currently.
 
     Returns
     -------

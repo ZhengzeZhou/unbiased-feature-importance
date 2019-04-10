@@ -1,13 +1,13 @@
+import numpy as np
+
 def UFI_regr(self, X, y):
-    """Function for calculating unbiased measurement of feature importance 
-    for RandomForestRegressor. Out-of-bag samples are used.
+    """Return unbiased measurement of feature importance for RandomForestRegressor using out-of-bag samples.
 
     Parameters  
     ----------
     self : RandomForestRegressor object. 
     X : array-like of shape = [n_samples, n_features]
-        The training input samples. It should be the same data as you use 
-        to fit RandomForestRegressor.
+        The training input samples. It should be the same data as you use to fit RandomForestRegressor.
     y : array-like of shape = [n_samples]
         The target values (real numbers in regression). 
 
