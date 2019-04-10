@@ -8,7 +8,7 @@ def UFI_cls(self, X, y):
     X : array-like of shape = [n_samples, n_features]
         The training input samples. It should be the same data as you use 
         to fit RandomForestClassifier.
-    y : array-like, shape = [n_samples]
+    y : array-like of shape = [n_samples]
         The target values (class labels in classification). Only binary 
         classsfication is supported currently.
 
@@ -16,7 +16,6 @@ def UFI_cls(self, X, y):
     -------
     feature importance: array, shape = [n_features]
     """   
-
     VI = np.array([0.] * self.n_features_)
 
     n_estimators = self.n_estimators
@@ -31,16 +30,15 @@ def UFI_cls(self, X, y):
         tree_y_inb = y.repeat((self.inbag_times_[:, index]).astype("int"), axis = 0)
         decision_path_inb = tree.decision_path(tree_X_inb).todense()
 
-        oob_index = (self.inbag_times_[:, index] == 0)
-        tree_X_oob = X[oob_index]
-        tree_y_oob = y[oob_index]
+        tree_X_oob = X[self.inbag_times_[:, index] == 0]
+        tree_y_oob = y[self.inbag_times_[:, index] == 0]
         decision_path_oob = tree.decision_path(tree_X_oob).todense()
 
         impurity = [0] * n_nodes
 
         flag = [True] * n_nodes
 
-        weighted_n_node_samples = np.array(np.sum(decision_path_inb, axis = 0))[0]
+        weighted_n_node_samples = np.array(np.sum(decision_path_inb, axis = 0))[0] / tree_X_inb.shape[0]
 
         for i in range(n_nodes):
 
@@ -73,12 +71,12 @@ def UFI_cls(self, X, y):
             node_right = tree.tree_.children_right[node]
 
             if flag[node] == True:
-                
-            incre = (weighted_n_node_samples[node] * impurity[node] -
-                                weighted_n_node_samples[node_left] * impurity[node_left] -
-                                weighted_n_node_samples[node_right] * impurity[node_right])
 
-            temp[v] += incre
+                incre = (weighted_n_node_samples[node] * impurity[node] -
+                         weighted_n_node_samples[node_left] * impurity[node_left] -
+                         weighted_n_node_samples[node_right] * impurity[node_right])
+
+                temp[v] += incre
 
         VI += temp
 

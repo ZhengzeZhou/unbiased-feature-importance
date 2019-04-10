@@ -15,7 +15,6 @@ def UFI_regr(self, X, y):
     -------
     feature importance: array, shape = [n_features]
     """   
-    
     VI = np.array([0.] * self.n_features_)
 
     n_estimators = self.n_estimators
